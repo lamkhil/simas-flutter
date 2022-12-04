@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="go.id.batukota.dlh.simas">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    
    <application
         android:label="simas"
         android:name="${applicationName}"
