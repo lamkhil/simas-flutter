@@ -9,12 +9,15 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: 4.6.5
   http: any
-  flutter: 
-    sdk: flutter
   flutter_neumorphic: ^3.2.0
   fl_chart: ^0.55.2
   flutter_map: ^3.0.0
   latlong2: ^0.8.1
+  dio: 4.0.6
+  get_storage: 2.0.3
+  intl: 0.17.0
+  flutter: 
+    sdk: flutter
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -22,7 +25,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
-  uses-material-design: true
-  assets:
+  assets: 
     - assets/
+  uses-material-design: true
 

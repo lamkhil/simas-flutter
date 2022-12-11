@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:simas/app/global/controller/controller.dart';
 import 'package:simas/app/modules/home/views/tab/beranda_tab.dart';
 import 'package:simas/app/modules/home/views/tab/laporan_tab.dart';
 import 'package:simas/app/modules/home/views/tab/titik_pantau_tab.dart';
+import 'package:simas/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -73,15 +75,20 @@ class HomeView extends GetView<HomeController> {
                 )
               ]),
         ),
-        body: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onPanUpdate: (details) {
-            print(details.delta.distance);
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color(0xFF03486F),
+          onPressed: () {
+            if (Get.find<ControllerApp>().user != null) {
+              Get.toNamed(Routes.INPUT_HOME);
+            } else {
+              Get.offAllNamed(Routes.LOGIN);
+            }
           },
-          child: TabBarView(
-            controller: controller.tabController,
-            children: const [BerandaTab(), TitikPantauTab(), LaporanTab()],
-          ),
+          child: const Icon(Icons.add),
+        ),
+        body: TabBarView(
+          controller: controller.tabController,
+          children: const [BerandaTab(), TitikPantauTab(), LaporanTab()],
         ));
   }
 }

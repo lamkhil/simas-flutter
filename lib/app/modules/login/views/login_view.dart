@@ -72,6 +72,7 @@ class LoginView extends GetView<LoginController> {
                           lightSource: n.LightSource.topLeft,
                           color: Colors.white),
                       child: TextFormField(
+                        controller: controller.emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                             border: InputBorder.none, label: Text("Email")),
@@ -95,6 +96,7 @@ class LoginView extends GetView<LoginController> {
                           Expanded(
                             child: Obx(
                               () => TextFormField(
+                                controller: controller.passwordController,
                                 obscureText: !controller.showPassword,
                                 decoration: const InputDecoration(
                                     border: InputBorder.none,

@@ -109,10 +109,14 @@ class BerandaTab extends GetView<HomeController> {
                 child: DropdownButton(
                     value: null,
                     elevation: 0,
-                    underline: null,
-                    hint: const Text("Parameter"),
+                    underline: const SizedBox.shrink(),
+                    hint:
+                        const Text("Parameter", style: TextStyle(fontSize: 12)),
                     items: ["TSS", "BOD", "No2", "DHL"]
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .map((e) => DropdownMenuItem(
+                            value: e,
+                            child:
+                                Text(e, style: const TextStyle(fontSize: 12))))
                         .toList(),
                     onChanged: (val) {}),
               ),
@@ -127,15 +131,21 @@ class BerandaTab extends GetView<HomeController> {
                 child: DropdownButton(
                     value: null,
                     elevation: 0,
-                    underline: null,
-                    hint: const Text("Titik Pantau"),
+                    underline: const SizedBox.shrink(),
+                    hint: const Text(
+                      "Titik Pantau",
+                      style: TextStyle(fontSize: 12),
+                    ),
                     items: [
                       "Sumber Brantas",
                       "Jembatan Metro",
                       "Brantas Sengguruh",
                       "Brantas 2"
                     ]
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .map((e) => DropdownMenuItem(
+                            value: e,
+                            child:
+                                Text(e, style: const TextStyle(fontSize: 12))))
                         .toList(),
                     onChanged: (val) {}),
               )

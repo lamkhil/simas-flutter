@@ -9,26 +9,23 @@ class TitikPantauTab extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      ignoring: true,
-      child: FlutterMap(
-        options: MapOptions(
-          center: LatLng(51.509364, -0.128928),
-          zoom: 9.2,
-        ),
-        nonRotatedChildren: [
-          AttributionWidget.defaultWidget(
-            source: 'OpenStreetMap contributors',
-            onSourceTapped: null,
-          ),
-        ],
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'go.id.batukota.dlh.simas',
-          ),
-        ],
+    return FlutterMap(
+      options: MapOptions(
+        center: LatLng(51.509364, -0.128928),
+        zoom: 9.2,
       ),
+      nonRotatedChildren: [
+        AttributionWidget.defaultWidget(
+          source: 'OpenStreetMap contributors',
+          onSourceTapped: null,
+        ),
+      ],
+      children: [
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          userAgentPackageName: 'go.id.batukota.dlh.simas',
+        ),
+      ],
     );
   }
 }
