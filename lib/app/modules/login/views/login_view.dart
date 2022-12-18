@@ -29,7 +29,7 @@ class LoginView extends GetView<LoginController> {
                 padding: const EdgeInsets.all(24),
                 margin: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Get.theme.scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(24)),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -70,7 +70,7 @@ class LoginView extends GetView<LoginController> {
                               BorderRadius.circular(12)),
                           depth: -5,
                           lightSource: n.LightSource.topLeft,
-                          color: Colors.white),
+                          color: Get.theme.scaffoldBackgroundColor),
                       child: TextFormField(
                         controller: controller.emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -90,7 +90,7 @@ class LoginView extends GetView<LoginController> {
                               BorderRadius.circular(12)),
                           depth: -5,
                           lightSource: n.LightSource.topLeft,
-                          color: Colors.white),
+                          color: Get.theme.scaffoldBackgroundColor),
                       child: Row(
                         children: [
                           Expanded(

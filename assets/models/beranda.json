@@ -1,0 +1,21 @@
+{
+    "ika": 85.06,
+    "ika_compare": "Turun",
+    "ketinggan_air": 332,
+    "ketinggian_compare": "Turun",
+    "ika_terendah": {
+        "id": 1,
+        "nama": "Subdas Sumber Brantas Arboretum",
+        "desa": "Sumber Brantas",
+        "kecamatan": "Bumiaji",
+        "longitude": -7.759076,
+        "latitude": 112.5255058,
+        "created_at": "2022-12-11T15:33:25.000000Z",
+        "updated_at": "2022-12-11T15:33:25.000000Z",
+        "ika": 85.06,
+        "ika_compare": "Turun"
+    },
+    "tingkat_kecemaran": "Bersih",
+    "grafik_ika": [],
+    "grafik_parameter": []
+}

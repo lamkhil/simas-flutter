@@ -1,47 +1,74 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class BarChartSample2 extends StatefulWidget {
-  const BarChartSample2({super.key});
+class BarIndeksKualitasAir extends StatefulWidget {
+  final List<dynamic> data;
+  const BarIndeksKualitasAir({super.key, required this.data});
 
   @override
-  State<StatefulWidget> createState() => BarChartSample2State();
+  State<StatefulWidget> createState() => BarIndeksKualitasAirState();
 }
 
-class BarChartSample2State extends State<BarChartSample2> {
+class BarIndeksKualitasAirState extends State<BarIndeksKualitasAir> {
   final Color leftBarColor = const Color(0xFF147AD6);
   final Color rightBarColor = const Color(0xFFE76464);
   final double width = 7;
 
   late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
+  late List<Map<String, dynamic>> data;
 
   int touchedGroupIndex = -1;
 
   @override
   void initState() {
     super.initState();
-    final barGroup1 = makeGroupData(0, 5, 12);
-    final barGroup2 = makeGroupData(1, 16, 12);
-    final barGroup3 = makeGroupData(2, 18, 5);
-    final barGroup4 = makeGroupData(3, 20, 16);
-    final barGroup5 = makeGroupData(4, 17, 6);
-    final barGroup6 = makeGroupData(5, 19, 1.5);
-    final barGroup7 = makeGroupData(6, 10, 1.5);
+    if (widget.data.isNotEmpty) {
+      data = widget.data.map<Map<String, dynamic>>((e) => e).toList();
+      int awalTahun = (int.tryParse(data.first['tahun'].toString()) ??
+              DateTime.now().year) -
+          4;
+      List<BarChartGroupData> dataItem = [];
+      List<int> tahun = List.generate(5, (index) => awalTahun + index);
+      for (var i = 0; i < 5; i++) {
+        var group = data
+            .where(
+                (element) => int.parse(element['tahun'].toString()) == tahun[i])
+            .toList();
+        if (group.isNotEmpty) {
+          if (group.length > 1) {
+            dataItem.add(makeGroupData(
+                i,
+                double.parse(group[1]['ika'].toString()),
+                double.parse(group[0]['ika'].toString())));
+          } else {
+            if (int.parse(group[0]['tahap'].toString()) == 1) {
+              dataItem.add(makeGroupData(
+                  i, double.parse(group[0]['ika'].toString()), 0));
+            } else {
+              dataItem.add(makeGroupData(
+                  i, 0, double.parse(group[0]['ika'].toString())));
+            }
+          }
+        } else {
+          dataItem.add(makeGroupData(i, 0, 0));
+        }
+      }
 
-    final items = [
-      barGroup1,
-      barGroup2,
-      barGroup3,
-      barGroup4,
-      barGroup5,
-      barGroup6,
-      barGroup7,
-    ];
+      rawBarGroups = dataItem;
 
-    rawBarGroups = items;
+      showingBarGroups = rawBarGroups;
+    } else {
+      rawBarGroups = [
+        makeGroupData(0, 0, 0),
+        makeGroupData(0, 0, 0),
+        makeGroupData(0, 0, 0),
+        makeGroupData(0, 0, 0),
+        makeGroupData(0, 0, 0),
+      ];
 
-    showingBarGroups = rawBarGroups;
+      showingBarGroups = rawBarGroups;
+    }
   }
 
   @override
@@ -58,7 +85,7 @@ class BarChartSample2State extends State<BarChartSample2> {
               Expanded(
                 child: BarChart(
                   BarChartData(
-                    maxY: 20,
+                    maxY: 100,
                     barTouchData: BarTouchData(
                       touchTooltipData: BarTouchTooltipData(
                         tooltipBgColor: Colors.grey,
@@ -181,7 +208,7 @@ class BarChartSample2State extends State<BarChartSample2> {
       fontSize: 14,
     );
     String text;
-    if (value % 2 == 0) {
+    if (value % 20 == 0) {
       return SideTitleWidget(
         axisSide: meta.axisSide,
         space: 0,
@@ -192,18 +219,19 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-    final titles = <String>[
-      '2016',
-      '2017',
-      '2018',
-      '2019',
-      '2020',
-      '2021',
-      '2022'
-    ];
+    data = widget.data.map<Map<String, dynamic>>((e) => e).toList();
+    int awalTahun = 0;
+    if (data.isNotEmpty) {
+      awalTahun =
+          (int.tryParse(data.first['tahun']) ?? DateTime.now().year) - 4;
+    } else {
+      awalTahun = DateTime.now().year - 4;
+    }
+    List<String> tahun =
+        List.generate(5, (index) => (awalTahun + index).toString());
 
     final Widget text = Text(
-      titles[value.toInt()],
+      tahun[value.toInt()],
       style: const TextStyle(
         color: Color(0xff7589a2),
         fontWeight: FontWeight.bold,

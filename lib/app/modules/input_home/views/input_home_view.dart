@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:simas/app/data/models/waktu_sampling_model.dart';
 import 'package:simas/app/global/const/colors.dart';
 import 'package:simas/app/routes/app_pages.dart';
 
@@ -9,12 +10,19 @@ import '../../../global/controller/controller.dart';
 import '../controllers/input_home_controller.dart';
 
 class InputHomeView extends GetView<InputHomeController> {
+  const InputHomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: const BackButton(color: Colors.white),
           backgroundColor: ColorsApp.primary,
-          title: const Text('Data'),
+          title: Text(
+            '${Get.find<ControllerApp>().user?.name}',
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.white),
+          ),
           actions: [
             PopupMenuButton<int>(
               itemBuilder: (context) => [
@@ -24,7 +32,10 @@ class InputHomeView extends GetView<InputHomeController> {
                   // row with 2 children
                   child: Row(
                     children: [
-                      const Icon(Icons.person, color: ColorsApp.primary),
+                      Icon(
+                        Icons.person,
+                        color: Get.theme.textTheme.bodyText1!.color!,
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
@@ -37,10 +48,10 @@ class InputHomeView extends GetView<InputHomeController> {
                   value: 2,
                   // row with two children
                   child: Row(
-                    children: const [
+                    children: [
                       Icon(
                         Icons.logout,
-                        color: ColorsApp.primary,
+                        color: Get.theme.textTheme.bodyText1!.color!,
                       ),
                       SizedBox(
                         width: 10,
@@ -50,8 +61,11 @@ class InputHomeView extends GetView<InputHomeController> {
                   ),
                 ),
               ],
-              color: Colors.white,
               elevation: 2,
+              icon: const Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
               // on selected we show the dialog box
               onSelected: (value) {
                 // if value 1 show dialog
@@ -61,11 +75,11 @@ class InputHomeView extends GetView<InputHomeController> {
                       applicationName:
                           "${Get.find<ControllerApp>().user?.name}",
                       applicationVersion:
-                          "${Get.find<ControllerApp>().user?.email}",
+                          "${Get.find<ControllerApp>().user?.email}\n\ncreated by Muhammad Lamkhil Bashor",
                       applicationIcon: const Icon(Icons.person));
                   // if value 2 show dialog
                 } else if (value == 2) {
-                  Get.offAllNamed(Routes.HOME);
+                  Get.back();
                   Get.find<ControllerApp>().saveGlobalUser(null);
                   GetStorage().erase();
                 }
@@ -82,8 +96,8 @@ class InputHomeView extends GetView<InputHomeController> {
                 children: [
                   Text(
                     "Data Kualitas Air",
-                    style: Get.textTheme.headline6!.copyWith(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                    style: Get.textTheme.headline6!
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
                   ElevatedButton(
@@ -92,13 +106,40 @@ class InputHomeView extends GetView<InputHomeController> {
                       onPressed: () {
                         Get.toNamed(Routes.INPUT_QUALITY);
                       },
-                      child: const Text("Tambah Data"))
+                      child: const Text(
+                        "Tambah Data",
+                        style: TextStyle(color: Colors.white),
+                      ))
                 ],
               ),
               Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [itemTime(), itemTime()],
+                  child: RefreshIndicator(
+                onRefresh: () async {
+                  controller.getKualitas();
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: controller.obx(
+                    (state) {
+                      return Column(
+                        children: state?.map((e) => itemTime(e)).toList() ?? [],
+                      );
+                    },
+                    onLoading: SizedBox(
+                      height: Get.height * 0.8,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    onError: (error) {
+                      return SizedBox(
+                        height: Get.height * 0.8,
+                        child: Center(
+                          child: Text(error ?? ''),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ))
             ],
@@ -106,43 +147,41 @@ class InputHomeView extends GetView<InputHomeController> {
         ));
   }
 
-  Card itemTime() {
+  Card itemTime(WaktuSampling item) {
     return Card(
       child: Theme(
         data: Get.theme.copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           title: Text(
-            "2022 Tahap 2",
+            "${item.tahun} Tahap ${item.tahap}",
             style:
                 Get.textTheme.headline6!.copyWith(fontWeight: FontWeight.bold),
           ),
           children: [
-            Card(
-              child: ListTile(
-                title: Text(
-                  "Mata Air Sumber Brantas",
-                  style: Get.textTheme.bodyText2!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_right,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text(
-                  "Mata Air Sumber Brantas",
-                  style: Get.textTheme.bodyText2!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_right,
-                  color: Colors.black,
-                ),
-              ),
-            )
+            ...item.kualitas
+                .map(
+                  (e) => InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.INPUT_QUALITY, arguments: {
+                        'kualitas': e,
+                        'waktu': item.waktu,
+                        'tahap': item.tahap
+                      });
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(
+                          e.titikPantau?.nama ?? 'Server Error',
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        trailing: Icon(Icons.arrow_right,
+                            color: Get.theme.textTheme.bodyText1!.color),
+                      ),
+                    ),
+                  ),
+                )
+                .toList()
           ],
         ),
       ),

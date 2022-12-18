@@ -1,3 +1,5 @@
+import 'package:simas/app/data/models/input_kualitas_model.dart';
+
 class TitikPantau {
   int? id;
   String? nama;
@@ -7,7 +9,9 @@ class TitikPantau {
   double? latitude;
   String? createdAt;
   String? updatedAt;
-
+  String? foto;
+  List<KualitasAir>? kualitas;
+  List<dynamic>? kuantitas;
   TitikPantau(
       {this.id,
       this.nama,
@@ -16,6 +20,7 @@ class TitikPantau {
       this.longitude,
       this.latitude,
       this.createdAt,
+      this.foto,
       this.updatedAt});
 
   TitikPantau.fromJson(Map<String, dynamic> json) {
@@ -23,10 +28,21 @@ class TitikPantau {
     nama = json['nama'];
     desa = json['desa'];
     kecamatan = json['kecamatan'];
-    longitude = json['longitude'];
-    latitude = json['latitude'];
+    longitude = double.tryParse(json['longitude']);
+    latitude = double.tryParse(json['latitude']);
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    foto = json['foto'] != null
+        ? (json['foto'] as List).isNotEmpty
+            ? "https://midtrans.takhruj.com${(json['foto'] as List).last['link']}"
+            : null
+        : null;
+    kuantitas = json['kuantitas'];
+    kualitas = json['kualitas'] != null
+        ? (json['kualitas'] as List)
+            .map((e) => KualitasAir.fromJson(e))
+            .toList()
+        : null;
   }
 
   Map<String, dynamic> toJson() {

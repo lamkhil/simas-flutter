@@ -1,6 +1,7 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:simas/app/data/services/admin_services.dart';
+import 'package:simas/app/global/controller/controller.dart';
 import 'package:simas/app/global/widget/error.dart';
 import 'package:simas/app/global/widget/loading.dart';
 import 'package:simas/app/routes/app_pages.dart';
@@ -18,6 +19,7 @@ class LoginController extends GetxController {
     LoadingDialog.basic();
     final result = await AdminServices.login(
         email: emailController.text, password: passwordController.text);
+    Get.find<ControllerApp>().saveGlobalUser(result.data);
     Get.back();
     if (result.success) {
       Get.offNamed(Routes.INPUT_HOME);

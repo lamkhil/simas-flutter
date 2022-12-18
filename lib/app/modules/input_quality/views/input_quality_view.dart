@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:simas/app/data/models/titik_pantau_model.dart';
 
 import '../../../global/const/colors.dart';
@@ -13,8 +14,12 @@ class InputQualityView extends GetView<InputQualityController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: const BackButton(color: Colors.white),
           backgroundColor: ColorsApp.primary,
-          title: const Text('Tambah Data'),
+          title: const Text(
+            'Tambah Data',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -31,12 +36,23 @@ class InputQualityView extends GetView<InputQualityController> {
                         child: inputField(
                             label: "Waktu Sampling",
                             controller: controller.waktuSamplingController,
-                            onTap: () {
-                              showDatePicker(
+                            onTap: () async {
+                              final result = await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
+                                  initialDate: controller
+                                          .waktuSamplingController
+                                          .text
+                                          .isNotEmpty
+                                      ? DateFormat('dd-MM-yyyy').parse(
+                                          controller
+                                              .waktuSamplingController.text)
+                                      : DateTime.now(),
                                   firstDate: DateTime(2010),
                                   lastDate: DateTime.now());
+                              if (result != null) {
+                                controller.waktuSamplingController.text =
+                                    DateFormat('dd-MM-yyyy').format(result);
+                              }
                             },
                             prefix: Icons.calendar_month)),
                     const SizedBox(
@@ -348,8 +364,8 @@ class InputQualityView extends GetView<InputQualityController> {
                     Expanded(
                         flex: 1,
                         child: inputField(
-                            controller: controller.minyakController,
-                            label: "Minyak dan Lemak",
+                            controller: controller.sulfatController,
+                            label: "Sulfat (SO4)",
                             suffix: "mg/L")),
                     const SizedBox(
                       width: 8,
@@ -357,28 +373,28 @@ class InputQualityView extends GetView<InputQualityController> {
                     Expanded(
                         flex: 1,
                         child: inputField(
-                            controller: controller.sulfatController,
-                            label: "Sulfat (SO4)",
+                            controller: controller.minyakController,
+                            label: "Minyak dan Lemak",
                             suffix: "mg/L")),
                   ],
                 ),
                 Row(
                   children: [
-                    Expanded(
-                        flex: 1,
-                        child: inputField(
-                            controller: controller.phenolController,
-                            label: "Phenol",
-                            suffix: "mg/L")),
-                    const SizedBox(
-                      width: 8,
-                    ),
                     Expanded(
                         flex: 1,
                         child: inputField(
                             controller: controller.deterjenController,
                             label: "Deterjen",
                             suffix: "mg/L")),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: inputField(
+                            controller: controller.phenolController,
+                            label: "Phenol",
+                            suffix: "mg/L")),
                   ],
                 ),
                 Row(
@@ -386,8 +402,8 @@ class InputQualityView extends GetView<InputQualityController> {
                     Expanded(
                         flex: 1,
                         child: inputField(
-                            controller: controller.nTotalController,
-                            label: "N-Total",
+                            controller: controller.nikelController,
+                            label: "Nikel (Ni)",
                             suffix: "mg/L")),
                     const SizedBox(
                       width: 8,
@@ -395,8 +411,8 @@ class InputQualityView extends GetView<InputQualityController> {
                     Expanded(
                         flex: 1,
                         child: inputField(
-                            controller: controller.nikelController,
-                            label: "Nikel (Ni)",
+                            controller: controller.nTotalController,
+                            label: "N-Total",
                             suffix: "mg/L")),
                   ],
                 ),

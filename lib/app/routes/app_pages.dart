@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/detail_kualitas/bindings/detail_kualitas_binding.dart';
+import '../modules/detail_kualitas/views/detail_kualitas_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/input_home/bindings/input_home_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.INPUT_QUALITY,
       page: () => InputQualityView(),
       binding: InputQualityBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_KUALITAS,
+      page: () => DetailKualitasView(),
+      binding: DetailKualitasBinding(),
     ),
   ];
 }

@@ -14,7 +14,8 @@ class NetworkInterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     String? token = GetStorage().read('token');
     if (token != null) {
-      options.headers.addAll({HttpHeaders.authorizationHeader: token});
+      options.headers
+          .addAll({HttpHeaders.authorizationHeader: "Bearer $token"});
     }
     return super.onRequest(options, handler);
   }

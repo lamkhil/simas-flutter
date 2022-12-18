@@ -8,6 +8,7 @@ abstract class Routes {
   static const INPUT_HOME = _Paths.INPUT_HOME;
   static const INPUT_QUANTITY = _Paths.INPUT_QUANTITY;
   static const INPUT_QUALITY = _Paths.INPUT_QUALITY;
+  static const DETAIL_KUALITAS = _Paths.DETAIL_KUALITAS;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const INPUT_HOME = '/input-home';
   static const INPUT_QUANTITY = '/input-quantity';
   static const INPUT_QUALITY = '/input-quality';
+  static const DETAIL_KUALITAS = '/detail-kualitas';
 }

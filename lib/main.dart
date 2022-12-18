@@ -19,12 +19,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: Get.theme.copyWith(
+      theme: ThemeData.light(useMaterial3: true).copyWith(
+          appBarTheme: AppBarTheme(
+              foregroundColor: Colors.white,
+              iconTheme: IconThemeData(color: Colors.white)),
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          )),
+      darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
           inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
       )),
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       title: "Application",
       initialRoute: AppPages.INITIAL,
