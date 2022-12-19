@@ -42,9 +42,13 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   void onInit() {
     tabController = TabController(length: 3, vsync: this);
     tabDrawerController = TabController(length: 2, vsync: this);
-    getAllTitikPantau();
     tabController.addListener(() {
       _currentTab.value = tabController.index;
+    });
+    getAllTitikPantau().then((value) {
+      berandaController.getDataBeranda();
+      laporanController.getLaporan();
+      titikPantauController.getTitikPantau();
     });
     tabController.animation!.addListener(() {
       taboffset.value = tabController.offset;

@@ -88,7 +88,6 @@ class BerandaController extends GetxController
   @override
   void onInit() {
     titikPantauShowParameter[0] = true;
-    getDataBeranda();
     super.onInit();
   }
 

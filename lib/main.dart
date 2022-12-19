@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData.light(useMaterial3: true).copyWith(
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
               foregroundColor: Colors.white,
               iconTheme: IconThemeData(color: Colors.white)),
           inputDecorationTheme: InputDecorationTheme(

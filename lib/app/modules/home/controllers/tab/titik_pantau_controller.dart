@@ -16,10 +16,4 @@ class TitikPantauController extends GetxController
       change(null, status: RxStatus.error(result.message));
     }
   }
-
-  @override
-  void onInit() {
-    getTitikPantau();
-    super.onInit();
-  }
 }

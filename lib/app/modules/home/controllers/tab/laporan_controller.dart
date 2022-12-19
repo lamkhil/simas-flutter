@@ -13,12 +13,6 @@ import 'package:simas/app/modules/home/controllers/home_controller.dart';
 
 class LaporanController extends GetxController
     with StateMixin<Map<String, dynamic>> {
-  @override
-  void onInit() {
-    getLaporan();
-    super.onInit();
-  }
-
   Future<void> getLaporan({String? url}) async {
     change(null, status: RxStatus.loading());
     final result = await HomeServices.getLaporan(url: url);
